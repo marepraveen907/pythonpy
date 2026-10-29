@@ -1,0 +1,28 @@
+class Solution(object):
+    def mergeKLists(self, lists):
+        if not lists:
+            return None
+
+        def merge(a, b):
+            dummy = ListNode()
+            tail = dummy
+            while a and b:
+                if a.val <= b.val:
+                    tail.next = a
+                    a = a.next
+                else:
+                    tail.next = b
+                    b = b.next
+                tail = tail.next
+            tail.next = a or b
+            return dummy.next
+
+        while len(lists) > 1:
+            merged = []
+            for i in range(0, len(lists), 2):
+                a = lists[i]
+                b = lists[i + 1] if i + 1 < len(lists) else None
+                merged.append(merge(a, b))
+            lists = merged
+
+        return lists[0]
